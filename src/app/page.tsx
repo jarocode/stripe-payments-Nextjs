@@ -1,95 +1,95 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+"use client";
 
-export default function Home() {
+import React from "react";
+import styled from "@emotion/styled";
+import { Typography, Card, CardContent, Button } from "@mui/material";
+
+const page = () => {
+  const plans = [
+    {
+      name: "Basic",
+      price: "$200/year",
+      description: "Create just one chatbot,  gpt3.5 only",
+    },
+    {
+      name: "Standard",
+      price: "$590/year",
+      description: "Create not more than two chatbots, gpt3.5 & gpt-4",
+    },
+    {
+      name: "Enterprise",
+      price: "$750/year",
+      description: "Create up to 15 chatbots, gpt3.5 , gpt-4o, gpt-4 ",
+    },
+  ];
   return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>src/app/page.tsx</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
+    <Container>
+      <Typography fontWeight={700} fontSize={"48px"}>
+        Pricing Plans
+      </Typography>
+      <Typography>
+        Start building for free, then add a site plan to go live. Account plans
+        unlock additional features.
+      </Typography>
+      <CardDiv>
+        {plans.map((el) => (
+          <BasicCard
+            key={el.name}
+            name={el.name}
+            description={el.description}
+            price={el.price}
+          />
+        ))}
+      </CardDiv>
+    </Container>
+  );
+};
 
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
+export default page;
 
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
+function BasicCard({
+  name,
+  description,
+  price,
+}: {
+  name: string;
+  description: string;
+  price: string;
+}) {
+  return (
+    <Card sx={{ minWidth: 275, background: "#18181B", color: "#fff" }}>
+      <CardContent
+        sx={{ display: "flex", flexDirection: "column", gap: "1rem" }}
+      >
+        <Typography fontWeight={500} fontSize="22px">
+          {name}
+        </Typography>
 
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
+        <Typography variant="body2">{description}</Typography>
+        <Typography fontSize="30px" fontWeight={700}>
+          {price}
+        </Typography>
+      </CardContent>
 
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore starter templates for Next.js.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
+      <Button
+        size="large"
+        style={{ background: "#fff", color: "#000", width: "100%" }}
+      >
+        Subscribe
+      </Button>
+    </Card>
   );
 }
+
+const Container = styled.div`
+  padding-top: 4rem;
+  text-align: center;
+  width: 100%;
+`;
+
+const CardDiv = styled.div`
+  display: flex;
+  padding-top: 5rem;
+  gap: 1.5rem;
+  justify-content: center;
+`;
