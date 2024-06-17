@@ -1,27 +1,32 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import styled from "@emotion/styled";
 import { Typography, Card, CardContent, Button } from "@mui/material";
+import { stripeApi } from "./api-requests/stripe";
 
-const page = () => {
+const Page = () => {
   const plans = [
     {
       name: "Basic",
       price: "$200/year",
       description: "Create just one chatbot,  gpt3.5 only",
+      lookup_key: "basic_yearly",
     },
     {
       name: "Standard",
       price: "$590/year",
       description: "Create not more than two chatbots, gpt3.5 & gpt-4",
+      lookup_key: "standard_yearly",
     },
     {
       name: "Enterprise",
       price: "$750/year",
       description: "Create up to 15 chatbots, gpt3.5 , gpt-4o, gpt-4 ",
+      lookup_key: "enterprise_yearly",
     },
   ];
+
   return (
     <Container>
       <Typography fontWeight={700} fontSize={"48px"}>
@@ -38,6 +43,7 @@ const page = () => {
             name={el.name}
             description={el.description}
             price={el.price}
+            lookup_key={el.lookup_key}
           />
         ))}
       </CardDiv>
@@ -45,17 +51,36 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;
 
 function BasicCard({
   name,
   description,
   price,
+  lookup_key,
 }: {
   name: string;
   description: string;
   price: string;
+  lookup_key: string;
 }) {
+  const [loading, setLoading] = useState(false);
+
+  const handleStripeCheckout = async () => {
+    setLoading(true);
+    try {
+      const { sessionUrl } = await stripeApi.createCheckoutSession({
+        lookup_key,
+      });
+      setLoading(false);
+      // console.log("sessionUrl", sessionUrl);
+      window.location.href = sessionUrl;
+    } catch (error) {
+      setLoading(false);
+      throw error;
+    }
+  };
+
   return (
     <Card sx={{ minWidth: 275, background: "#18181B", color: "#fff" }}>
       <CardContent
@@ -74,6 +99,8 @@ function BasicCard({
       <Button
         size="large"
         style={{ background: "#fff", color: "#000", width: "100%" }}
+        onClick={handleStripeCheckout}
+        disabled={loading}
       >
         Subscribe
       </Button>
