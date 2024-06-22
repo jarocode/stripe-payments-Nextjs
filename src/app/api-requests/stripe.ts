@@ -7,7 +7,7 @@ const createCheckoutSession = async ({
 }) => {
   try {
     const response = await api.post(
-      `/payments/stripe/create-checkout-session`,
+      `/payments/stripe/create-subscription-checkout`,
       {
         lookup_key,
       }
