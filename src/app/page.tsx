@@ -69,12 +69,12 @@ function BasicCard({
   const handleStripeCheckout = async () => {
     setLoading(true);
     try {
-      const { sessionUrl } = await stripeApi.createCheckoutSession({
+      const { sessionUrl } = await stripeApi.updateSubscription({
         lookup_key,
       });
       setLoading(false);
       // console.log("sessionUrl", sessionUrl);
-      window.location.href = sessionUrl;
+      // window.location.href = sessionUrl;
     } catch (error) {
       setLoading(false);
       throw error;

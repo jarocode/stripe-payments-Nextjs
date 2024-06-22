@@ -1,6 +1,6 @@
 import api from ".";
 
-const createCheckoutSession = async ({
+const createSubscriptionCheckout = async ({
   lookup_key,
 }: {
   lookup_key: string;
@@ -17,7 +17,18 @@ const createCheckoutSession = async ({
     throw error;
   }
 };
+const updateSubscription = async ({ lookup_key }: { lookup_key: string }) => {
+  try {
+    const response = await api.post(`/payments/stripe/update-subscription`, {
+      lookup_key,
+    });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
 
 export const stripeApi = {
-  createCheckoutSession,
+  createSubscriptionCheckout,
+  updateSubscription,
 };
