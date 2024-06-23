@@ -90,6 +90,7 @@ const Page = () => {
               size="large"
               sx={{
                 padding: ".5rem 2.5rem",
+                minWidth: "15rem",
                 background: "#fff",
                 color: "#000",
                 "&:hover": {
@@ -99,7 +100,11 @@ const Page = () => {
               disabled={loading}
               onClick={handleSubscriptionCancellation}
             >
-              Cancel Subscription
+              {loading ? (
+                <CircularProgress size={"32px"} />
+              ) : (
+                "Cancel Subscription"
+              )}
             </Button>
           ) : (
             <></>
