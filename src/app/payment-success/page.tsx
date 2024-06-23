@@ -1,28 +1,29 @@
 "use client";
 
 import React from "react";
+import Link from "next/link";
 import styled from "@emotion/styled";
 import { Typography, Button } from "@mui/material";
 
 const page = () => {
   return (
     <Container>
-      <Typography fontSize="36px">
-        Subscription to enterprise plan successful!
-      </Typography>
-      <Button
-        size="large"
-        sx={{
-          padding: ".5rem 2.5rem",
-          background: "#fff",
-          color: "#000",
-          "&:hover": {
+      <Typography fontSize="36px">Subscription successful!</Typography>
+      <Link href={"/dashboard"}>
+        <Button
+          size="large"
+          sx={{
+            padding: ".5rem 2.5rem",
             background: "#fff",
-          },
-        }}
-      >
-        Back
-      </Button>
+            color: "#000",
+            "&:hover": {
+              background: "#fff",
+            },
+          }}
+        >
+          Dashboard
+        </Button>
+      </Link>
     </Container>
   );
 };

@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import styled from "@emotion/styled";
+import { useSearchParams, useRouter } from "next/navigation";
 import { Typography, Card, CardContent, Button } from "@mui/material";
 import { stripeApi } from "./api-requests/stripe";
 
@@ -65,16 +66,40 @@ function BasicCard({
   lookup_key: string;
 }) {
   const [loading, setLoading] = useState(false);
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const isUpgrade = Boolean(searchParams.get("upgrade"));
+
+  console.log("isUpgrade:", isUpgrade);
 
   const handleStripeCheckout = async () => {
+    if (isUpgrade) return subscriptionUpgrade();
+    subscriptionCreation();
+  };
+
+  const subscriptionCreation = async () => {
     setLoading(true);
     try {
-      const { sessionUrl } = await stripeApi.updateSubscription({
+      const { sessionUrl } = await stripeApi.createSubscriptionCheckout({
         lookup_key,
       });
       setLoading(false);
       // console.log("sessionUrl", sessionUrl);
-      // window.location.href = sessionUrl;
+      window.location.href = sessionUrl;
+    } catch (error) {
+      setLoading(false);
+      throw error;
+    }
+  };
+  const subscriptionUpgrade = async () => {
+    setLoading(true);
+    try {
+      const { message } = await stripeApi.updateSubscription({
+        lookup_key,
+      });
+      setLoading(false);
+      alert(message);
+      router.replace("/dashboard");
     } catch (error) {
       setLoading(false);
       throw error;
