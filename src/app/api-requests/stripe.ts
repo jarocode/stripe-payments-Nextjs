@@ -35,9 +35,24 @@ const getUserSubscription = async () => {
     throw error;
   }
 };
+const cancelSubscription = async ({
+  subscription_id,
+}: {
+  subscription_id: string;
+}) => {
+  try {
+    const response = await api.post(`/payments/stripe/cancel-subscription`, {
+      subscription_id,
+    });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
 
 export const stripeApi = {
   createSubscriptionCheckout,
   updateSubscription,
   getUserSubscription,
+  cancelSubscription,
 };
